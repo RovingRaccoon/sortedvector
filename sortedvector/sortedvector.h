@@ -1,13 +1,10 @@
-//
-// sortedvector.h
-//
-// Author: Kristian Larsson
-// Course: OOP med C++, vt12
-// Uppsala Universitet
-//
-// IDE: Code::Blocks 10.05
-// Compiler: GNU GCC
-//
+/*
+vertex.h
+
+Author: Kristian Larsson
+IDE: Visual Studio Express 2013
+
+*/
 
 #ifndef SORTEDVEC_H
 #define SORTEDVEC_H

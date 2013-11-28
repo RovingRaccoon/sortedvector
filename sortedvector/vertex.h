@@ -1,13 +1,10 @@
-//
-// vertex.h
-//
-// Author: Kristian Larsson
-// Course: OOP med C++, vt12
-// Uppsala Universitet
-//
-// IDE: Code::Blocks 10.05
-// Compiler: GNU GCC
-//
+/*
+vertex.h
+
+Author: Kristian Larsson
+IDE: Visual Studio Express 2013
+
+*/
 
 #ifndef VERTEX_H
 #define VERTEX_H
