@@ -11,7 +11,7 @@ IDE: Visual Studio Express 2013
 
 #include <utility>
 
-template <class T, std::size_t size=3>
+template <class T, std::size_t size = 3, class Allocator = std::allocator<T> >
 class SortedVector{
     public:
         SortedVector(std::size_t num = 0);
@@ -24,12 +24,12 @@ class SortedVector{
 		std::size_t numObjects;
 };
 
-template <class T, std::size_t size>
-SortedVector<T, size>::SortedVector(std::size_t num) : numObjects(num){
+template <class T, std::size_t size, class Allocator = std::allocator<T> >
+SortedVector<T, size, Allocator>::SortedVector(std::size_t num) : numObjects(num){
 };
 
-template <class T, std::size_t size>
-bool SortedVector<T, size>::add(const T& value){
+template <class T, std::size_t size, class Allocator = std::allocator<T> >
+bool SortedVector<T, size, Allocator>::add(const T& value){
 	using std::swap;
 
     if(numObjects == size){
@@ -79,8 +79,8 @@ bool SortedVector<T, size>::add(const T& value){
 	return true;
 };
 
-template <class T, std::size_t size>
-const T& SortedVector<T, size>::median() const{
+template <class T, std::size_t size, class Allocator = std::allocator<T> >
+const T& SortedVector<T, size, Allocator>::median() const{
     // Returnera mittenelementet eller det första av de två i mitten om det
     // jämnt antal.
 
@@ -90,8 +90,8 @@ const T& SortedVector<T, size>::median() const{
 
 };
 
-template <class T, std::size_t size>
-void SortedVector<T, size>::removeLarger(const T& v){
+template <class T, std::size_t size, class Allocator = std::allocator<T> >
+void SortedVector<T, size, Allocator>::removeLarger(const T& v){
 
     for(std::size_t i = (numObjects-1); i > 0; --i){
         // Loopen börjar på slutet av vektorn så det blir enkelt att räkna ner numObjects
@@ -102,8 +102,8 @@ void SortedVector<T, size>::removeLarger(const T& v){
     }
 };
 
-template <class T, std::size_t size>
-void SortedVector<T, size>::print(std::ostream &os){
+template <class T, std::size_t size, class Allocator = std::allocator<T> >
+void SortedVector<T, size, Allocator>::print(std::ostream &os){
 
     for(std::size_t i = 0; i < numObjects; i++){
         std::cout << vec[i] << std::endl;
