@@ -9,42 +9,97 @@ IDE: Visual Studio Express 2013
 #ifndef SORTEDVEC_H
 #define SORTEDVEC_H
 
+#include <initializer_list>
+#include <iterator>
 #include <utility>
 
-template <class T, std::size_t msize = 3, class Allocator = std::allocator<T> >
+template <class T, std::size_t mSize = 3, class Allocator = std::allocator<T> >
 class SortedVector{
 
     public:
-        SortedVector(std::size_t num = 0);
+		//using value_type =											T;
+		//using reference =											value_type&;
+		//using const_reference =										const value_type&;
+		typedef T                                                   value_type;
+		typedef value_type&                                         reference;
+		typedef const value_type&                                   const_reference;
+		typedef T*													iterator;
+		typedef const T*											const_iterator;
+		//using size_type =											std::size_t;
+		typedef std::size_t											size_type;
+		//using difference_type =										std::ptrdiff_t;
+		typedef std::ptrdiff_t										difference_type;
+		//using allocator_type =										Allocator;
+		typedef Allocator                                           allocator_type;
+		//using pointer =												typename allocator_traits<Allocator>::pointer;
+		typedef T*													pointer;
+		//using const_pointer =										typename allocator_traits<Allocator>::const_pointer;
+		typedef const T*											const_pointer;
+		//typedef typename std::reverse_iterator<iterator>                     reverse_iterator;
+		//typedef typename const std::reverse_iterator<iterator>               const_reverse_iterator;
+
+		explicit SortedVector(const allocator_type& alloc = allocator_type());
+		explicit SortedVector(size_type n);
+
+		SortedVector(size_type n, const value_type& val,
+			const allocator_type& alloc = allocator_type());
+		template <class InputIterator>
+		SortedVector(InputIterator first, InputIterator last,
+			const allocator_type& alloc = allocator_type());
+		SortedVector(const SortedVector& x);
+		SortedVector(const SortedVector& x, const allocator_type& alloc);
+		SortedVector(SortedVector&& x);
+		SortedVector(SortedVector&& x, const allocator_type& alloc);
+		SortedVector(std::initializer_list<value_type> il,
+			const allocator_type& alloc = allocator_type());
+
         const T& median() const;
-        void removeLarger(const T& v);
         void print(std::ostream &os);
+		//SortedVector& operator=( const SortedVector& other );
+		//SortedVector& operator=(SortedVector&& other);
+		//SortedVector& operator=(std::initializer_list<T> ilist);
+		//void assign(size_type count, const T& value);
+		//template< class InputIt >
+		//void assign(InputIt first, InputIt last);
+		//void assign(std::initializer_list<T> ilist);
+		//allocator_type get_allocator() const;
+		
 		// Element access
-		//T& at(size_type pos);
-		//T& operator[](size_type pos);
+		//reference at(size_type pos);
+		//reference operator[](size_type pos);
+		//reference front();
+		//constexpr const_reference front() const;
+		//reference back();
+		//constexpr const_reference back() const;
+		//T* data();
+		//const T* data() const;
+		
 		// Iterators
-		//iterator begin();
-		//const_iterator begin();
-		//const_iterator cbegin();
-		//iterator end();
-		//const_iterator end();
-		//const_iterator cend();
-		//reverse_iterator rbegin();
-		//reverse_const_iterator rbegin();
-		//reverse_const_iterator crbegin();
-		//reverse_iterator end();
-		//reverse_const_iterator end();
-		//reverse_const_iterator cend();
+		//iterator begin() _NOEXCEPT;
+		//const_iterator begin() const _NOEXCEPT;
+		//const_iterator cbegin() _NOEXCEPT;
+		//iterator end() _NOEXCEPT;
+		//const_iterator end() const _NOEXCEPT;
+		//const_iterator cend() _NOEXCEPT;
+		//reverse_iterator rbegin() _NOEXCEPT;
+		//reverse_const_iterator rbegin() const _NOEXCEPT;
+		//reverse_const_iterator crbegin() _NOEXCEPT;
+		//reverse_iterator end() _NOEXCEPT;
+		//reverse_const_iterator end() const _NOEXCEPT;
+		//reverse_const_iterator cend() _NOEXCEPT;
+		
 		// Capacity
 		bool empty() const _NOEXCEPT;
-		std::size_t size() const _NOEXCEPT;
-		std::size_t max_size() const _NOEXCEPT;
-		void reserve(std::size_t new_cap);
-		std::size_t capacity() const _NOEXCEPT;
+		size_type size() const _NOEXCEPT;
+		size_type max_size() const _NOEXCEPT;
+		void reserve(size_type new_cap);
+		size_type capacity() const _NOEXCEPT;
 		void shrink_to_fit();
+		
 		// Modifiers
 		void clear() _NOEXCEPT;
 		bool add(const T& value);
+		void removeLarger(const T& v);
 		//iterator erase(iterator pos);
 		//iterator erase(const_iterator pos);
 		//iterator erase(iterator first, iterator last);
@@ -53,19 +108,23 @@ class SortedVector{
 		//void swap();
 
     private:
-        T vec[msize];
-		std::size_t numObjects;
+        T vec[mSize];
+		size_type numObjects;
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-SortedVector<T, msize, Allocator>::SortedVector(std::size_t num) : numObjects(num){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+SortedVector<T, mSize, Allocator>::SortedVector(const allocator_type& alloc = allocator_type()){
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-bool SortedVector<T, msize, Allocator>::add(const T& value){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+SortedVector<T, mSize, Allocator>::SortedVector(std::size_t n=0) : numObjects(n){
+};
+
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+bool SortedVector<T, mSize, Allocator>::add(const T& value){
 	using std::swap;
 
-    if(numObjects == msize){
+    if(numObjects == mSize){
         return false; // SortedVector är full.
     }
 
@@ -83,7 +142,7 @@ bool SortedVector<T, msize, Allocator>::add(const T& value){
 
     else{
 
-		for (std::size_t i = 0; i <= numObjects; ++i){
+		for (size_type i = 0; i <= numObjects; ++i){
 			
 			if (i == numObjects){
 				// Ojektet är större än de i arrayen
@@ -92,7 +151,7 @@ bool SortedVector<T, msize, Allocator>::add(const T& value){
 			}
 
             if ( value < vec[i] ){
-				for (unsigned int j = numObjects; j > i; --j){
+				for (size_type j = numObjects; j > i; --j){
 					// Flytta alla ett steg upp
                     vec[j] = vec[j-1];
                 }
@@ -112,8 +171,8 @@ bool SortedVector<T, msize, Allocator>::add(const T& value){
 	return true;
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-const T& SortedVector<T, msize, Allocator>::median() const{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+const T& SortedVector<T, mSize, Allocator>::median() const{
     // Returnera mittenelementet eller det första av de två i mitten om det
     // jämnt antal.
 
@@ -123,10 +182,10 @@ const T& SortedVector<T, msize, Allocator>::median() const{
 
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-void SortedVector<T, msize, Allocator>::removeLarger(const T& v){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+void SortedVector<T, mSize, Allocator>::removeLarger(const T& v){
 
-    for(std::size_t i = (numObjects-1); i > 0; --i){
+	for (size_type i = (numObjects - 1); i > 0; --i){
         // Loopen börjar på slutet av vektorn så det blir enkelt att räkna ner numObjects
         if(vec[i] > v){
             vec[i] = T();
@@ -135,49 +194,49 @@ void SortedVector<T, msize, Allocator>::removeLarger(const T& v){
     }
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-void SortedVector<T, msize, Allocator>::print(std::ostream &os){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+void SortedVector<T, mSize, Allocator>::print(std::ostream &os){
 
-    for(std::size_t i = 0; i < numObjects; i++){
+	for (size_type i = 0; i < numObjects; i++){
         std::cout << vec[i] << std::endl;
     }
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-bool SortedVector<T, msize, Allocator>::empty() const _NOEXCEPT{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+bool SortedVector<T, mSize, Allocator>::empty() const _NOEXCEPT{
 	// return (begin() == end());
 	return (numObjects == 0);
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-std::size_t SortedVector<T, msize, Allocator>::size() const _NOEXCEPT{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+typename SortedVector<T, mSize, Allocator>::size_type SortedVector<T, mSize, Allocator>::size() const _NOEXCEPT{
 	//return std::distance(begin(), end());
 	return numObjects;
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-std::size_t SortedVector<T, msize, Allocator>::max_size() const _NOEXCEPT{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+typename SortedVector<T, mSize, Allocator>::size_type SortedVector<T, mSize, Allocator>::max_size() const _NOEXCEPT{
 	// return  std::numeric_limits<size_type>::max()
-	return msize;
+	return mSize;
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-void SortedVector<T, msize, Allocator>::reserve(std::size_t new_cap){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+void SortedVector<T, mSize, Allocator>::reserve(std::size_t new_cap){
 	// To be implemented
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-std::size_t SortedVector<T, msize, Allocator>::capacity() const _NOEXCEPT{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+typename SortedVector<T, mSize, Allocator>::size_type SortedVector<T, mSize, Allocator>::capacity() const _NOEXCEPT{
 	// To be implemented
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-void SortedVector<T, msize, Allocator>::shrink_to_fit(){
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+void SortedVector<T, mSize, Allocator>::shrink_to_fit(){
 	// To be implemented
 };
 
-template <class T, std::size_t msize, class Allocator = std::allocator<T> >
-void SortedVector<T, msize, Allocator>::clear() _NOEXCEPT{
+template <class T, std::size_t mSize, class Allocator = std::allocator<T> >
+void SortedVector<T, mSize, Allocator>::clear() _NOEXCEPT{
 	// To be implemented
 };
 #endif
