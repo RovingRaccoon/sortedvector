@@ -5,8 +5,8 @@
 #include "sortedvector.h"
 
 int main(){
-    SortedVector<Polygon,10> polygons;
-    SortedVector<int,6> ints;
+    SortedVector<Polygon, 10> polygons;
+    SortedVector<int, 6> ints;
 
     ints.add( 3 );
     ints.add( 1 );
@@ -20,7 +20,7 @@ int main(){
 
     polygons.add(Polygon( varr, 4) );
 
-    std::cout << (Polygon(varr,4)).area() << std::endl;
+	std::cout << (Polygon(varr, 4)).area() << "\n";
 
     varr[0] = Vertex(0, 0);
     varr[1] = Vertex(25, 8);
@@ -28,7 +28,7 @@ int main(){
 
     polygons.add( Polygon( varr, 3) );
 
-    std::cout << (Polygon(varr,3)).area() << std::endl;
+	std::cout << (Polygon(varr, 3)).area() << "\n";
 
     varr[0] = Vertex(0,0);
     varr[1] = Vertex(5,0);
@@ -38,21 +38,24 @@ int main(){
 
     polygons.add( Polygon( varr, 5) );
 
-    std::cout << (Polygon(varr,5)).area() << std::endl;
+	std::cout << (Polygon(varr, 5)).area() << "\n";
 
     polygons.print(std::cout);
 
     ints.print(std::cout);
 	
     std::cout << "MEDIAN: " << ints.median() << "\n";
-    std::cout << "MEDIAN: " << polygons.median() << std::endl;
+    std::cout << "MEDIAN: " << polygons.median() << "\n";
 
     ints.add( 4); // 1 3 4 6
     ints.add( 2); // 1 2 3 4 6
     ints.add( 5); // 1 2 3 4 5 6
     ints.removeLarger( 3 ); // 1 2 3
 
-    std::cout << "MEDIAN: " << ints.median() << std::endl;
+	std::cout << "MEDIAN: " << ints.median() << "\n";
+
+	ints.clear();
+	ints.print(std::cout);
 
 	char c;
 

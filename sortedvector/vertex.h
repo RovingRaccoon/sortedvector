@@ -17,13 +17,13 @@ class Vertex{
 		Vertex(int x=0, int y=0);
 		Vertex(const Vertex& otherVertex);
 		~Vertex();
-		inline int getX() const {return pos_X;};
-		inline int getY() const {return pos_Y;};
+		int getX() const {return pos_X;};
+		int getY() const {return pos_Y;};
 		Vertex& operator=(Vertex otherVertex);
 		friend void swap(Vertex& first, Vertex& second);
 		friend std::ostream & operator<<(std::ostream& os, const Vertex& vertex);
-
-		
 };
+
+
 
 #endif

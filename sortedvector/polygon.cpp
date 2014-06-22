@@ -16,8 +16,10 @@ Polygon::Polygon(Vertex* vp, unsigned int n): list_length(n){
 
 	v_list = new Vertex[list_length];
 
-    for(unsigned int i = 0; i < list_length; ++i)
-        v_list[i] = *(vp+i);
+	for (unsigned int i = 0; i < list_length; ++i){
+		std::cout << *(vp + i) << "\n";
+		v_list[i] = *(vp+i);
+	}
 
 };
 
@@ -157,8 +159,8 @@ std::ostream & operator<<( std::ostream& os, const Polygon& poly){
 
     os << "{";
 
-    for(unsigned int i = 0; i < poly.list_length; i++){
-        os << "(" << poly.v_list[i].getX() << ", " << poly.v_list[i].getY() << ") ";
+    for(std::size_t i = 0; i < poly.numVertices(); i++){
+        os << "(" << poly.v_list[i] << ") "; // .getX() << ", " << poly.v_list[i].getY()
     };
 
     os << "}";

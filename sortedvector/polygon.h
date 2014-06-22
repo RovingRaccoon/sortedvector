@@ -30,15 +30,14 @@ class Polygon{
 		std::size_t numVertices() const {return list_length;};
 		Polygon& operator=(Polygon otherPolygon);
 		friend void swap(Polygon& first, Polygon& second);
-		friend std::ostream & operator<<(std::ostream& os, const Polygon& poly);
+		friend std::ostream& operator<<(std::ostream& os, const Polygon& poly);
 };
 
-inline bool operator==(const Polygon& lhs, const Polygon& rhs){ return std::fabs( lhs.area() - rhs.area() ) < 1E-3; }
+inline bool operator==(const Polygon& lhs, const Polygon& rhs){ return (std::fabs( lhs.area() - rhs.area() ) < 1E-3); }
 inline bool operator!=(const Polygon& lhs, const Polygon& rhs){ return !operator==(lhs, rhs); }
 inline bool operator<(const Polygon& lhs, const Polygon& rhs){ return ( lhs.area() < rhs.area() ); }
 inline bool operator> (const Polygon& lhs, const Polygon& rhs){ return  operator< (rhs, lhs); }
 inline bool operator<=(const Polygon& lhs, const Polygon& rhs){ return !operator> (lhs, rhs); }
 inline bool operator>=(const Polygon& lhs, const Polygon& rhs){ return !operator< (lhs, rhs); }
-
 
 #endif
