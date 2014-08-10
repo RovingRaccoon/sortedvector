@@ -14,6 +14,8 @@ IDE: Visual Studio Express 2013
 #include <cmath>
 #include <utility>
 
+namespace mysvector{
+
 template <class T, std::size_t mSize = 3>//, class Allocator = std::allocator<T> >
 class SortedVector{
 
@@ -215,7 +217,7 @@ void SortedVector<T, mSize>/*, Allocator>*/::print(std::ostream &os){
 
 template <class T, std::size_t mSize>//, class Allocator >
 bool SortedVector<T, mSize>/*, Allocator>*/::empty() const _NOEXCEPT{
-	// return (begin() == end());
+	//return (begin() == end());
 	return (numObjects == 0);
 };
 
@@ -256,4 +258,6 @@ void SortedVector<T, mSize>/*, Allocator>*/::clear() _NOEXCEPT{
 	numObjects = 0;
 
 };
+
+}
 #endif

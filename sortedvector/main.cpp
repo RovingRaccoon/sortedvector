@@ -5,8 +5,8 @@
 #include "sortedvector.h"
 
 int main(){
-    SortedVector<Polygon, 10> polygons;
-    SortedVector<int, 6> ints;
+    mysvector::SortedVector<Polygon, 10> polygons;
+	mysvector::SortedVector<int, 6> ints;
 
     ints.add( 3 );
     ints.add( 1 );
@@ -56,10 +56,6 @@ int main(){
 
 	ints.clear();
 	ints.print(std::cout);
-
-	char c;
-
-	std::cin >> c;
 
     return 0;
 }
