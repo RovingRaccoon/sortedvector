@@ -57,5 +57,8 @@ int main(){
 	ints.clear();
 	ints.print(std::cout);
 
+	int x;
+	std::cin >> x;
+
     return 0;
 }

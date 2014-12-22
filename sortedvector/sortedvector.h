@@ -20,31 +20,26 @@ template <class T, std::size_t mSize = 3>//, class Allocator = std::allocator<T>
 class SortedVector{
 
     public:
-		//using value_type =											T;
-		//using reference =											value_type&;
-		//using const_reference =										const value_type&;
-		typedef T                                                   value_type;
-		typedef value_type&                                         reference;
-		typedef const value_type&                                   const_reference;
-		typedef T*													iterator;
-		typedef const T*											const_iterator;
-		//using size_type =											std::size_t;
-		typedef std::size_t											size_type;
-		//using difference_type =										std::ptrdiff_t;
-		typedef std::ptrdiff_t										difference_type;
-		//using allocator_type =										Allocator;
-		//typedef Allocator                                           allocator_type;
-		//using pointer =												typename allocator_traits<Allocator>::pointer;
-		typedef T*													pointer;
-		//using const_pointer =										typename allocator_traits<Allocator>::const_pointer;
-		typedef const T*											const_pointer;
-		//typedef typename std::reverse_iterator<iterator>                     reverse_iterator;
-		//typedef typename const std::reverse_iterator<iterator>               const_reverse_iterator;
+		using value_type =				T;
+		using reference =				value_type&;
+		using const_reference =			const value_type&;
+		using iterator =				T*;
+		using const_iterator =			const T*;
+		using size_type =				std::size_t;
+		using difference_type =			std::ptrdiff_t;
+		using pointer =					T*;
+		using const_pointer =			const T*;
+
+		//using allocator_type =			Allocator;
+		//using pointer =					typename allocator_traits<Allocator>::pointer;
+		//using const_pointer =				typename allocator_traits<Allocator>::const_pointer;
+		//using reverse_iterator =			typename std::reverse_iterator<iterator>;
+		//using const_reverse_iterator =	typename const std::reverse_iterator<iterator>;
 
 		//explicit SortedVector(const allocator_type& alloc = allocator_type());
 		explicit SortedVector(size_type n=0);
 
-		SortedVector(size_type n, const value_type& val/*,
+		SortedVector(size_type n, typename SortedVector<T, mSize>::const_reference val/*,
 			const allocator_type& alloc = allocator_type()*/);
 		template <class InputIterator>
 		SortedVector(InputIterator first, InputIterator last/*,
@@ -56,7 +51,7 @@ class SortedVector{
 		SortedVector(std::initializer_list<value_type> il/*,
 			const allocator_type& alloc = allocator_type()*/);
 
-        const T& median() const;
+        typename SortedVector<T, mSize>::const_reference median() const;
         void print(std::ostream &os);
 		//SortedVector& operator=( const SortedVector& other );
 		//SortedVector& operator=(SortedVector&& other);
@@ -101,8 +96,8 @@ class SortedVector{
 		
 		// Modifiers
 		void clear() _NOEXCEPT;
-		bool add(const T& value);
-		void removeLarger(const T& v);
+		bool add(typename SortedVector<T, mSize>::const_reference value);
+		void removeLarger(typename SortedVector<T, mSize>::const_reference v);
 		//iterator erase(iterator pos);
 		//iterator erase(const_iterator pos);
 		//iterator erase(iterator first, iterator last);
@@ -111,7 +106,7 @@ class SortedVector{
 		//void swap();
 
     private:
-        T vec[mSize];
+        value_type vec[mSize];
 		size_type numObjects;
 };
 
@@ -123,29 +118,31 @@ template <class T, std::size_t mSize>//, class Allocator >
 SortedVector<T, mSize>/*, Allocator>*/::SortedVector(std::size_t n) : numObjects(n){
 };
 
+template <class T, std::size_t mSize>
+SortedVector<T, mSize>::SortedVector(size_type n, typename SortedVector<T, mSize>::const_reference val) : numObjects(n), vec(val){
+};
+
 template <class T, std::size_t mSize>//, class Allocator >
-bool SortedVector<T, mSize>/*, Allocator>*/::add(const T& value){
+bool SortedVector<T, mSize>/*, Allocator>*/::add(typename SortedVector<T, mSize>::const_reference value){
 	using std::swap;
 
     if( size() < max_size() ){
 
 		if ( empty() ){
 			vec[numObjects] = value;
-			//numObjects++;
 		}
 
 		if ( size() == 1 ){
 			vec[size()] = value;
 			if ( vec[size()] < vec[0] )
 				swap(vec[0], vec[size()]);
-			//numObjects++;
 		}
 
 		else{
 
 			for ( size_type i = 0; i <= size(); ++i ){
 
-				if (i == size()){
+				if (i == size()){ // TODO: Skriv om så att value testas mot sista objektet innan loopen
 					// Ojektet är större än de i arrayen
 					// och ska in sist.
 					vec[size()] = value;
@@ -179,18 +176,16 @@ bool SortedVector<T, mSize>/*, Allocator>*/::add(const T& value){
 };
 
 template <class T, std::size_t mSize>//, class Allocator >
-const T& SortedVector<T, mSize>/*, Allocator>*/::median() const{
-    // Returnera mittenelementet eller det första av de två i mitten om det
-    // jämnt antal.
+typename SortedVector<T, mSize>::const_reference SortedVector<T, mSize>/*, Allocator>*/::median() const{
 
         return vec[ ( size()/2 ) ];
-        // I det här fallet har jag utgått från att det automatiskt avrundas ner
-        // det skulle gå att använda floor() från cmath för att vara säker på att det blir rätt.
+        // Jag har utgått från att det automatiskt avrundas ner
+        // det går att använda floor() från cmath för att vara säker på att det blir rätt.
 
 };
 
 template <class T, std::size_t mSize>//, class Allocator >
-void SortedVector<T, mSize>/*, Allocator>*/::removeLarger(const T& v){
+void SortedVector<T, mSize>/*, Allocator>*/::removeLarger(typename SortedVector<T, mSize>::const_reference v){
 
 	for (size_type i = (numObjects - 1); i > 0; --i){
         // Loopen börjar på slutet av vektorn så det blir enkelt att räkna ner numObjects
